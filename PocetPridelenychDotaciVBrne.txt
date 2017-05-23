@@ -1,0 +1,19 @@
+##################################################
+# Počet přidělených dotací v Brně
+##################################################
+# sparqlEndpoint: http://cedropendata.mfcr.cz/c3lod/cedr/sparql
+# sparqlResult:   http://cedropendata.mfcr.cz/c3lod/cedr/sparql?query=prefix+cedr%3A+%3Chttp%3A%2F%2Fcedropendata.mfcr.cz%2Fc3lod%2Fcedr%2FvocabCEDR%23%3E%0D%0Aprefix+spa%3A+%3Chttp%3A%2F%2Fcedropendata.mfcr.cz%2Fc3lod%2Fisdp%2FvocabIsdp%2Fspace%2Fv1%23%3E%0D%0Aprefix+xsd%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2001%2FXMLSchema%23%3E%0D%0APREFIX+hint%3A+%3Chttp%3A%2F%2Fwww.bigdata.com%2FqueryHints%23%3E+%0D%0Aselect+%28count%28%3Fdotace%29+as+%3FpocetDotaciVBrne+%29+where+%0D%0A%7B%0D%0A+hint%3AQuery+hint%3Aoptimizer+%22None%22+.%0D%0A%3Fadresa+spa%3AobecKod+%22582786%22%5E%5Exsd%3Ainteger+.%0D%0A%3Fprijemce+cedr%3AsidliNaAdrese+%3Fadresa+.+%0D%0A%3Fprijemce+cedr%3AobdrzelDotaci+%3Fdotace+.%0D%0A%7D&format=text%2Fhtml
+##################################################
+prefix cedr: <http://cedropendata.mfcr.cz/c3lod/cedr/vocabCEDR#>
+prefix spa: <http://cedropendata.mfcr.cz/c3lod/isdp/vocabIsdp/space/v1#>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX hint: <http://www.bigdata.com/queryHints#> 
+select (count(?dotace) as ?pocetDotaciVBrne ) where 
+{
+ hint:Query hint:optimizer "None" .
+?adresa spa:obecKod "582786"^^xsd:integer .
+?prijemce cedr:sidliNaAdrese ?adresa . 
+?prijemce cedr:obdrzelDotaci ?dotace .
+}
+
+
