@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+
+<p>Test SPARQ endpoint IS CEDR III:</p>
+<button onclick="getSparqlResult()">Get SPARQL result</button>
+<button onclick="getSparqlDescribeResult()">Get SPARQL DESCRIBE result</button>
+<script>
+function processResponse(response){
+	
+}
+function getSparqlResult(){
+	$.ajax({
+      type: "post",
+      url:  "http://cedropendata.mfcr.cz/c3lod/cedr/sparql",
+      headers: {  Accept: "application/sparql-results+json" },
+      data: {   "query" : "prefix cedr: <http://cedropendata.mfcr.cz/c3lod/cedr/vocabCEDR#> prefix bus: <http://cedropendata.mfcr.cz/c3lod/isdp/vocabIsdp/business/v2#> prefix fkis: <http://cedropendata.mfcr.cz/c3lod/isdp/vocabIsdp/fkis/v1#>select ?p ?ico ?d ?projektId where {?p bus:ico '60990155' .?p cedr:obdrzelDotaci ?d . ?p bus:ico ?ico .?d fkis:projektIdentifikator ?projektId .} limit 20" },
+      success: function (response) { processResponse(response);  },
+      error: function (request, status, error){  alert("Error: LOD server comunication error:"+request.responseText); }
+    });
+}
+function getSparqlDescribeResult(){
+	$.ajax({
+      type: "post",
+      url:  "http://cedropendata.mfcr.cz/c3lod/cedr/sparql",
+      headers: {  Accept: "application/ld+json" },
+      data: {   "query" : "DESCRIBE <http://cedropendata.mfcr.cz/c3lod/cedr/resource/PrijemcePomoci/3437C14AA59D6F1DB8DA873818AD044F45CE5CBF>" },
+      success: function (response) { processResponse(response);  },
+      error: function (request, status, error){  alert("Error: LOD server comunication error:"+request.responseText); }
+    });
+
+}
+</script>
+
+</body>
+</html>
